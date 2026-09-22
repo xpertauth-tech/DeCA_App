@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeCA — Generador de Documento Electrónico de Control Administrativo</title>
+  <link rel="icon" type="image/png" href="assets/xpertauth-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img id="empresa-logo" class="brand-logo" src="assets/logo-xpertauth.png" alt="Logo de la empresa" />
+      <span id="empresa-nombre" class="brand-name">DeCA</span>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <section class="card">
+      <h1>Generador de DeCA</h1>
+      <p class="lead">
+        Formulario de creación en construcción (Fase 1 de la hoja de ruta).
+        Aquí irá el alta de una expedición: datos del art. 6, generación del
+        PDF con URL única y QR, y el añadido opcional de carta de porte.
+      </p>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      Esta aplicación ha sido creada y cedida gratuitamente por
+      <a href="https://xpertauth.com" target="_blank" rel="noopener">XpertAuth</a>,
+      sin ánimo de lucro, como apoyo al sector del transporte. Cada empresa
+      que la instala es responsable de su propia configuración, de los datos
+      que introduce y del cumplimiento de la normativa vigente en los
+      documentos que genera. XpertAuth no opera, aloja ni tiene acceso a los
+      datos de las instancias instaladas por terceros.
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
