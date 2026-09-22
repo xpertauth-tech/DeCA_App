@@ -68,7 +68,11 @@ async function crearExpedicion(payload) {
 
   const respuesta = await fetch(endpoint, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${window.DECA_CONFIG.SUPABASE_ANON_KEY}`,
+      "apikey": window.DECA_CONFIG.SUPABASE_ANON_KEY,
+    },
     body: JSON.stringify(payload),
   });
 
