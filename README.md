@@ -67,8 +67,12 @@ usa la `service_role` key — esa clave nunca sale del servidor.
 
 ## Estado
 
-En construcción. Próximo paso: formulario de creación (Fase 1 de la hoja de
-ruta).
+En construcción. El formulario de alta de expedición (Fase 1) ya tiene sus
+campos y validación en el navegador; todavía no persiste datos porque falta
+desplegar la Edge Function `crear-expedicion` contra un proyecto real de
+Supabase — hasta entonces, al enviarlo se muestra el payload que se
+guardaría. Próximo paso: esa Edge Function (Fase 2) y el autocompletado
+desde el directorio de contactos frecuentes.
 
 ## Instalación (borrador, se completa en la Fase 7)
 

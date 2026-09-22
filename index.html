@@ -18,13 +18,193 @@
   </header>
 
   <main class="app-main">
-    <section class="card">
-      <h1>Generador de DeCA</h1>
-      <p class="lead">
-        Formulario de creación en construcción (Fase 1 de la hoja de ruta).
-        Aquí irá el alta de una expedición: datos del art. 6, generación del
-        PDF con URL única y QR, y el añadido opcional de carta de porte.
-      </p>
+    <h1>Nueva expedición</h1>
+    <p class="lead">
+      Datos comunes del envío (art. 6 Orden FOM/2861/2012). Se generará el
+      DeCA con URL única y código QR; la carta de porte es opcional.
+    </p>
+
+    <form id="form-expedicion" novalidate>
+      <fieldset class="card">
+        <legend>Cargador</legend>
+        <div class="field-grid">
+          <label class="field">
+            <span>Nombre / razón social *</span>
+            <input type="text" name="cargador_nombre" required />
+          </label>
+          <label class="field">
+            <span>NIF *</span>
+            <input type="text" name="cargador_nif" required />
+          </label>
+          <label class="field field-wide">
+            <span>Dirección</span>
+            <input type="text" name="cargador_direccion" />
+          </label>
+          <label class="field">
+            <span>Teléfono</span>
+            <input type="tel" name="cargador_telefono" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="cargador_email" />
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Transportista</legend>
+        <div class="field-grid">
+          <label class="field">
+            <span>Nombre / razón social *</span>
+            <input type="text" name="transportista_nombre" required />
+          </label>
+          <label class="field">
+            <span>NIF *</span>
+            <input type="text" name="transportista_nif" required />
+          </label>
+          <label class="field field-wide">
+            <span>Dirección</span>
+            <input type="text" name="transportista_direccion" />
+          </label>
+          <label class="field">
+            <span>Teléfono</span>
+            <input type="tel" name="transportista_telefono" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="transportista_email" />
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Datos del transporte</legend>
+        <div class="field-grid">
+          <label class="field">
+            <span>Lugar de origen *</span>
+            <input type="text" name="lugar_origen" required />
+          </label>
+          <label class="field">
+            <span>Lugar de destino *</span>
+            <input type="text" name="lugar_destino" required />
+          </label>
+          <label class="field">
+            <span>Fecha de transporte *</span>
+            <input type="date" name="fecha_transporte" required />
+          </label>
+          <label class="field">
+            <span>Matrícula del vehículo *</span>
+            <input type="text" name="matricula_vehiculo" required />
+          </label>
+          <label class="field field-wide">
+            <span>Naturaleza de la mercancía *</span>
+            <input type="text" name="naturaleza_mercancia" required />
+          </label>
+          <label class="field">
+            <span>Peso (kg)</span>
+            <input type="number" name="peso_kg" min="0" step="0.01" />
+          </label>
+          <label class="field field-checkbox">
+            <input type="checkbox" name="peso_indeterminado" />
+            <span>Peso indeterminado</span>
+          </label>
+          <label class="field">
+            <span>Magnitud alternativa</span>
+            <input type="text" name="magnitud_alternativa" placeholder="p. ej. bultos, m³" />
+          </label>
+          <label class="field">
+            <span>Autorización especial</span>
+            <input type="text" name="autorizacion_especial" />
+          </label>
+          <label class="field field-wide">
+            <span>Observaciones</span>
+            <textarea name="observaciones" rows="2"></textarea>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Contraparte (recibe copia del DeCA)</legend>
+        <div class="field-grid">
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="contraparte_email" />
+          </label>
+          <label class="field">
+            <span>Teléfono</span>
+            <input type="tel" name="contraparte_telefono" />
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>
+          <label class="field-checkbox field-checkbox-legend">
+            <input type="checkbox" id="incluye_carta_porte" name="incluye_carta_porte" />
+            <span>Incluir carta de porte (art. 10 bis Ley 15/2009)</span>
+          </label>
+        </legend>
+        <div id="carta-porte-campos" class="field-grid" hidden>
+          <label class="field">
+            <span>Expedidor</span>
+            <input type="text" name="expedidor_nombre" />
+          </label>
+          <label class="field">
+            <span>Dirección del expedidor</span>
+            <input type="text" name="expedidor_direccion" />
+          </label>
+          <label class="field">
+            <span>Destinatario *</span>
+            <input type="text" name="destinatario_nombre" />
+          </label>
+          <label class="field">
+            <span>Dirección del destinatario *</span>
+            <input type="text" name="destinatario_direccion" />
+          </label>
+          <label class="field">
+            <span>Lugar de recepción</span>
+            <input type="text" name="lugar_recepcion" />
+          </label>
+          <label class="field">
+            <span>Fecha de recepción</span>
+            <input type="date" name="fecha_recepcion" />
+          </label>
+          <label class="field">
+            <span>Hora de recepción</span>
+            <input type="time" name="hora_recepcion" />
+          </label>
+          <label class="field">
+            <span>Lugar de entrega previsto</span>
+            <input type="text" name="lugar_entrega_previsto" />
+          </label>
+          <label class="field">
+            <span>Fecha de entrega prevista</span>
+            <input type="date" name="fecha_entrega_prevista" />
+          </label>
+          <label class="field">
+            <span>Hora de entrega prevista</span>
+            <input type="time" name="hora_entrega_prevista" />
+          </label>
+          <label class="field">
+            <span>Precio del transporte (€)</span>
+            <input type="number" name="precio_transporte" min="0" step="0.01" />
+          </label>
+          <label class="field">
+            <span>Gastos relacionados (€)</span>
+            <input type="number" name="gastos_relacionados" min="0" step="0.01" />
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Generar DeCA</button>
+      </div>
+    </form>
+
+    <section id="resultado" class="card" hidden>
+      <h2>Datos capturados</h2>
+      <p class="lead" id="resultado-nota"></p>
+      <pre id="resultado-json"></pre>
     </section>
   </main>
 

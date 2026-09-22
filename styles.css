@@ -124,3 +124,116 @@ h1, h2, h3 {
 .app-footer a {
   color: var(--color-primary);
 }
+
+.app-main h1 {
+  margin-bottom: 4px;
+}
+
+.app-main > .lead {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+fieldset.card {
+  border: 1px solid var(--border-color);
+  margin: 0 0 20px;
+}
+
+legend {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.88rem;
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.field span {
+  color: var(--text-muted);
+}
+
+.field input,
+.field textarea {
+  font: inherit;
+  color: var(--text-main);
+  background: var(--bg-app);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.field-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.field-checkbox-legend {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+.field-checkbox input {
+  width: 16px;
+  height: 16px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.btn-primary {
+  font: inherit;
+  font-weight: 600;
+  color: var(--brand-pure);
+  background: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+#resultado-json {
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--bg-app);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 560px) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}
