@@ -152,6 +152,22 @@ legend {
   margin-top: 12px;
 }
 
+.subcard-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.subcard-title:first-child {
+  margin-top: 12px;
+  padding-top: 0;
+  border-top: none;
+}
+
 .field {
   display: flex;
   flex-direction: column;

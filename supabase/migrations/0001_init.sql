@@ -25,13 +25,17 @@ insert into deca.configuracion (id) values (1);
 
 -- ----------------------------------------------------------------------------
 -- directorio: "efecto memoria" — contactos frecuentes por tipo de parte
+-- (pendiente de construir la interfaz de autocompletado, Fase 1.1)
 -- ----------------------------------------------------------------------------
 create table deca.directorio (
   id uuid primary key default gen_random_uuid(),
-  tipo text not null check (tipo in ('cargador', 'transportista', 'destinatario', 'expedidor')),
+  tipo text not null check (tipo in ('contratante', 'transportista', 'lugar_carga', 'lugar_entrega')),
   nombre text not null,
   nif text,
-  direccion text,
+  calle text,
+  codigo_postal text,
+  poblacion text,
+  provincia text,
   telefono text,
   email text,
   veces_usado integer not null default 1,
@@ -44,25 +48,44 @@ create index idx_directorio_busqueda on deca.directorio (tipo, nombre text_patte
 
 -- ----------------------------------------------------------------------------
 -- expediciones: datos comunes de un envío (art. 6 Orden FOM/2861/2012),
--- rellenados una sola vez en el formulario
+-- rellenados una sola vez en el formulario.
+--
+-- El "contratante" es quien contrata al transportista efectivo dentro de la
+-- cadena de subcontratación. Uno de los dos (contratante / transportista) es
+-- el "propietario" del documento: quien lo genera y a quien no se le envía
+-- copia — la copia del DeCA (art. 8) va siempre a la otra parte, usando el
+-- email/teléfono que ya se recoge en su propia tarjeta.
 -- ----------------------------------------------------------------------------
 create table deca.expediciones (
   id uuid primary key default gen_random_uuid(),
 
-  cargador_nombre text not null,
-  cargador_nif text not null,
-  cargador_direccion text,
-  cargador_telefono text,
-  cargador_email text,
+  contratante_nombre text not null,
+  contratante_nif text not null,
+  contratante_calle text,
+  contratante_codigo_postal text,
+  contratante_poblacion text,
+  contratante_provincia text,
+  contratante_telefono text,
+  contratante_email text,
 
   transportista_nombre text not null,
   transportista_nif text not null,
-  transportista_direccion text,
+  transportista_calle text,
+  transportista_codigo_postal text,
+  transportista_poblacion text,
+  transportista_provincia text,
   transportista_telefono text,
   transportista_email text,
 
-  lugar_origen text not null,
-  lugar_destino text not null,
+  propietario_documento text not null check (propietario_documento in ('contratante', 'transportista')),
+
+  -- lugar_origen / lugar_destino son solo el punto de partida/llegada del
+  -- transporte (puede no coincidir con el domicilio fiscal de ninguna de las
+  -- partes) — por eso llevan solo código postal y población, sin calle.
+  lugar_origen_codigo_postal text not null,
+  lugar_origen_poblacion text not null,
+  lugar_destino_codigo_postal text not null,
+  lugar_destino_poblacion text not null,
   fecha_transporte date not null,
 
   naturaleza_mercancia text not null,
@@ -73,10 +96,6 @@ create table deca.expediciones (
   matricula_vehiculo text not null,
   autorizacion_especial text,
   observaciones text,
-
-  -- contraparte a la que se le envía copia del DeCA (art. 8 — ejemplares)
-  contraparte_email text,
-  contraparte_telefono text,
 
   incluye_carta_porte boolean not null default false,
 
@@ -107,25 +126,33 @@ create index idx_deca_expedicion on deca.deca_documentos (expedicion_id);
 
 -- ----------------------------------------------------------------------------
 -- cartas_porte: campos adicionales del art. 10 bis Ley 15/2009, uno por
--- expedición (documento independiente, firma manuscrita, no eIDAS)
+-- expedición (documento independiente, firma manuscrita, no eIDAS).
+--
+-- lugar_carga y lugar_entrega son el punto físico real de carga/descarga
+-- (puede ser un almacén distinto del domicilio fiscal del contratante o del
+-- destinatario legal — p. ej. una empresa con varios almacenes), por eso son
+-- bloques propios con su propio nombre y dirección, sin NIF (la carta de
+-- porte no lo exige para estos dos puntos).
 -- ----------------------------------------------------------------------------
 create table deca.cartas_porte (
   id uuid primary key default gen_random_uuid(),
   expedicion_id uuid not null unique references deca.expediciones(id) on delete cascade,
 
-  expedidor_nombre text,
-  expedidor_direccion text,
+  lugar_carga_nombre text,
+  lugar_carga_calle text,
+  lugar_carga_codigo_postal text,
+  lugar_carga_poblacion text,
+  lugar_carga_provincia text,
+  lugar_carga_fecha date,
+  lugar_carga_hora time,
 
-  destinatario_nombre text not null,
-  destinatario_direccion text not null,
-
-  lugar_recepcion text,
-  fecha_recepcion date,
-  hora_recepcion time,
-
-  lugar_entrega_previsto text,
-  fecha_entrega_prevista date,
-  hora_entrega_prevista time,
+  lugar_entrega_nombre text not null,
+  lugar_entrega_calle text,
+  lugar_entrega_codigo_postal text not null,
+  lugar_entrega_poblacion text not null,
+  lugar_entrega_provincia text,
+  lugar_entrega_fecha date,
+  lugar_entrega_hora time,
 
   precio_transporte numeric,
   gastos_relacionados numeric,

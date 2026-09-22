@@ -15,12 +15,15 @@ const corsHeaders = {
 };
 
 const CAMPOS_OBLIGATORIOS = [
-  "cargador_nombre",
-  "cargador_nif",
+  "contratante_nombre",
+  "contratante_nif",
   "transportista_nombre",
   "transportista_nif",
-  "lugar_origen",
-  "lugar_destino",
+  "propietario_documento",
+  "lugar_origen_codigo_postal",
+  "lugar_origen_poblacion",
+  "lugar_destino_codigo_postal",
+  "lugar_destino_poblacion",
   "fecha_transporte",
   "naturaleza_mercancia",
   "matricula_vehiculo",
@@ -61,6 +64,10 @@ Deno.serve(async (req) => {
     return jsonResponse({ error: `Faltan campos obligatorios: ${faltantes.join(", ")}` }, 400);
   }
 
+  if (!["contratante", "transportista"].includes(String(payload.propietario_documento))) {
+    return jsonResponse({ error: "propietario_documento debe ser 'contratante' o 'transportista'" }, 400);
+  }
+
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
@@ -69,9 +76,12 @@ Deno.serve(async (req) => {
 
   const incluyeCartaPorte = Boolean(payload.incluye_carta_porte);
 
-  if (incluyeCartaPorte && (!payload.destinatario_nombre || !payload.destinatario_direccion)) {
+  if (
+    incluyeCartaPorte &&
+    (!payload.lugar_entrega_nombre || !payload.lugar_entrega_codigo_postal || !payload.lugar_entrega_poblacion)
+  ) {
     return jsonResponse(
-      { error: "La carta de porte requiere destinatario_nombre y destinatario_direccion" },
+      { error: "La carta de porte requiere lugar_entrega_nombre, lugar_entrega_codigo_postal y lugar_entrega_poblacion" },
       400
     );
   }
@@ -79,18 +89,27 @@ Deno.serve(async (req) => {
   const { data: expedicion, error: errorExpedicion } = await supabase
     .from("expediciones")
     .insert({
-      cargador_nombre: payload.cargador_nombre,
-      cargador_nif: payload.cargador_nif,
-      cargador_direccion: payload.cargador_direccion || null,
-      cargador_telefono: payload.cargador_telefono || null,
-      cargador_email: payload.cargador_email || null,
+      contratante_nombre: payload.contratante_nombre,
+      contratante_nif: payload.contratante_nif,
+      contratante_calle: payload.contratante_calle || null,
+      contratante_codigo_postal: payload.contratante_codigo_postal || null,
+      contratante_poblacion: payload.contratante_poblacion || null,
+      contratante_provincia: payload.contratante_provincia || null,
+      contratante_telefono: payload.contratante_telefono || null,
+      contratante_email: payload.contratante_email || null,
       transportista_nombre: payload.transportista_nombre,
       transportista_nif: payload.transportista_nif,
-      transportista_direccion: payload.transportista_direccion || null,
+      transportista_calle: payload.transportista_calle || null,
+      transportista_codigo_postal: payload.transportista_codigo_postal || null,
+      transportista_poblacion: payload.transportista_poblacion || null,
+      transportista_provincia: payload.transportista_provincia || null,
       transportista_telefono: payload.transportista_telefono || null,
       transportista_email: payload.transportista_email || null,
-      lugar_origen: payload.lugar_origen,
-      lugar_destino: payload.lugar_destino,
+      propietario_documento: payload.propietario_documento,
+      lugar_origen_codigo_postal: payload.lugar_origen_codigo_postal,
+      lugar_origen_poblacion: payload.lugar_origen_poblacion,
+      lugar_destino_codigo_postal: payload.lugar_destino_codigo_postal,
+      lugar_destino_poblacion: payload.lugar_destino_poblacion,
       fecha_transporte: payload.fecha_transporte,
       naturaleza_mercancia: payload.naturaleza_mercancia,
       peso_kg: payload.peso_kg ? Number(payload.peso_kg) : null,
@@ -99,8 +118,6 @@ Deno.serve(async (req) => {
       matricula_vehiculo: payload.matricula_vehiculo,
       autorizacion_especial: payload.autorizacion_especial || null,
       observaciones: payload.observaciones || null,
-      contraparte_email: payload.contraparte_email || null,
-      contraparte_telefono: payload.contraparte_telefono || null,
       incluye_carta_porte: incluyeCartaPorte,
     })
     .select()
@@ -113,16 +130,20 @@ Deno.serve(async (req) => {
   if (incluyeCartaPorte) {
     const { error: errorCarta } = await supabase.from("cartas_porte").insert({
       expedicion_id: expedicion.id,
-      expedidor_nombre: payload.expedidor_nombre || null,
-      expedidor_direccion: payload.expedidor_direccion || null,
-      destinatario_nombre: payload.destinatario_nombre,
-      destinatario_direccion: payload.destinatario_direccion,
-      lugar_recepcion: payload.lugar_recepcion || null,
-      fecha_recepcion: payload.fecha_recepcion || null,
-      hora_recepcion: payload.hora_recepcion || null,
-      lugar_entrega_previsto: payload.lugar_entrega_previsto || null,
-      fecha_entrega_prevista: payload.fecha_entrega_prevista || null,
-      hora_entrega_prevista: payload.hora_entrega_prevista || null,
+      lugar_carga_nombre: payload.lugar_carga_nombre || null,
+      lugar_carga_calle: payload.lugar_carga_calle || null,
+      lugar_carga_codigo_postal: payload.lugar_carga_codigo_postal || null,
+      lugar_carga_poblacion: payload.lugar_carga_poblacion || null,
+      lugar_carga_provincia: payload.lugar_carga_provincia || null,
+      lugar_carga_fecha: payload.lugar_carga_fecha || null,
+      lugar_carga_hora: payload.lugar_carga_hora || null,
+      lugar_entrega_nombre: payload.lugar_entrega_nombre,
+      lugar_entrega_calle: payload.lugar_entrega_calle || null,
+      lugar_entrega_codigo_postal: payload.lugar_entrega_codigo_postal,
+      lugar_entrega_poblacion: payload.lugar_entrega_poblacion,
+      lugar_entrega_provincia: payload.lugar_entrega_provincia || null,
+      lugar_entrega_fecha: payload.lugar_entrega_fecha || null,
+      lugar_entrega_hora: payload.lugar_entrega_hora || null,
       precio_transporte: payload.precio_transporte ? Number(payload.precio_transporte) : null,
       gastos_relacionados: payload.gastos_relacionados ? Number(payload.gastos_relacionados) : null,
     });

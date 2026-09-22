@@ -49,13 +49,24 @@ Supabase — igual que ya se hace con otros proyectos de XpertAuth.
 
 - `deca.configuracion` — ajustes de esta instancia (nombre de empresa, logo,
   plazo de conservación).
-- `deca.directorio` — contactos frecuentes (cargador / transportista /
-  destinatario / expedidor) para el autocompletado ("efecto memoria").
-- `deca.expediciones` — datos comunes del envío, art. 6, rellenados una sola vez.
+- `deca.directorio` — contactos frecuentes (contratante / transportista /
+  lugar_carga / lugar_entrega) para el autocompletado ("efecto memoria").
+- `deca.expediciones` — datos comunes del envío, art. 6, rellenados una sola
+  vez. El **contratante** es quien contrata al transportista efectivo dentro
+  de la cadena de subcontratación; `propietario_documento` indica cuál de
+  los dos genera el DeCA (la copia se envía siempre a la otra parte, con su
+  email/teléfono ya recogidos en su propia tarjeta — no hay una tarjeta de
+  "contraparte" separada). Las direcciones van en 4 campos (calle, código
+  postal, población, provincia); el origen/destino del transporte solo lleva
+  código postal y población, porque puede no coincidir con el domicilio
+  fiscal de ninguna de las partes.
 - `deca.deca_documentos` — versiones del DeCA (una fila por versión; Método 1
   actualiza la vigente, Método 2 añade una nueva conservando la anterior).
 - `deca.cartas_porte` — datos adicionales del art. 10 bis de la Ley 15/2009,
-  un documento independiente y separado del DeCA.
+  un documento independiente y separado del DeCA. `lugar_carga` y
+  `lugar_entrega` son el punto físico real de carga/descarga (puede ser un
+  almacén distinto del domicilio fiscal del contratante o del destinatario
+  legal), por eso llevan su propio nombre y dirección, sin NIF.
 
 Detalle completo en
 [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql).

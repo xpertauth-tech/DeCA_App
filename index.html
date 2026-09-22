@@ -26,33 +26,49 @@
 
     <form id="form-expedicion" novalidate>
       <fieldset class="card">
-        <legend>Cargador</legend>
+        <legend>Contratante</legend>
         <div class="field-grid">
           <label class="field">
             <span>Nombre / razón social *</span>
-            <input type="text" name="cargador_nombre" required />
+            <input type="text" name="contratante_nombre" required />
           </label>
           <label class="field">
             <span>NIF *</span>
-            <input type="text" name="cargador_nif" required />
+            <input type="text" name="contratante_nif" required />
           </label>
           <label class="field field-wide">
-            <span>Dirección</span>
-            <input type="text" name="cargador_direccion" />
+            <span>Calle / avenida</span>
+            <input type="text" name="contratante_calle" />
+          </label>
+          <label class="field">
+            <span>Código postal</span>
+            <input type="text" name="contratante_codigo_postal" inputmode="numeric" maxlength="5" />
+          </label>
+          <label class="field">
+            <span>Población</span>
+            <input type="text" name="contratante_poblacion" />
+          </label>
+          <label class="field">
+            <span>Provincia</span>
+            <input type="text" name="contratante_provincia" />
           </label>
           <label class="field">
             <span>Teléfono</span>
-            <input type="tel" name="cargador_telefono" />
+            <input type="tel" name="contratante_telefono" />
           </label>
           <label class="field">
             <span>Email</span>
-            <input type="email" name="cargador_email" />
+            <input type="email" name="contratante_email" />
+          </label>
+          <label class="field-checkbox field-wide">
+            <input type="radio" name="propietario_documento" value="contratante" checked />
+            <span>Este es quien genera el DeCA (la copia se enviará al transportista)</span>
           </label>
         </div>
       </fieldset>
 
       <fieldset class="card">
-        <legend>Transportista</legend>
+        <legend>Transportista efectivo</legend>
         <div class="field-grid">
           <label class="field">
             <span>Nombre / razón social *</span>
@@ -63,8 +79,20 @@
             <input type="text" name="transportista_nif" required />
           </label>
           <label class="field field-wide">
-            <span>Dirección</span>
-            <input type="text" name="transportista_direccion" />
+            <span>Calle / avenida</span>
+            <input type="text" name="transportista_calle" />
+          </label>
+          <label class="field">
+            <span>Código postal</span>
+            <input type="text" name="transportista_codigo_postal" inputmode="numeric" maxlength="5" />
+          </label>
+          <label class="field">
+            <span>Población</span>
+            <input type="text" name="transportista_poblacion" />
+          </label>
+          <label class="field">
+            <span>Provincia</span>
+            <input type="text" name="transportista_provincia" />
           </label>
           <label class="field">
             <span>Teléfono</span>
@@ -74,6 +102,10 @@
             <span>Email</span>
             <input type="email" name="transportista_email" />
           </label>
+          <label class="field-checkbox field-wide">
+            <input type="radio" name="propietario_documento" value="transportista" />
+            <span>Este es quien genera el DeCA (la copia se enviará al contratante)</span>
+          </label>
         </div>
       </fieldset>
 
@@ -81,12 +113,20 @@
         <legend>Datos del transporte</legend>
         <div class="field-grid">
           <label class="field">
-            <span>Lugar de origen *</span>
-            <input type="text" name="lugar_origen" required />
+            <span>Origen — código postal *</span>
+            <input type="text" name="lugar_origen_codigo_postal" inputmode="numeric" maxlength="5" required />
           </label>
           <label class="field">
-            <span>Lugar de destino *</span>
-            <input type="text" name="lugar_destino" required />
+            <span>Origen — población *</span>
+            <input type="text" name="lugar_origen_poblacion" required />
+          </label>
+          <label class="field">
+            <span>Destino — código postal *</span>
+            <input type="text" name="lugar_destino_codigo_postal" inputmode="numeric" maxlength="5" required />
+          </label>
+          <label class="field">
+            <span>Destino — población *</span>
+            <input type="text" name="lugar_destino_poblacion" required />
           </label>
           <label class="field">
             <span>Fecha de transporte *</span>
@@ -124,75 +164,87 @@
       </fieldset>
 
       <fieldset class="card">
-        <legend>Contraparte (recibe copia del DeCA)</legend>
-        <div class="field-grid">
-          <label class="field">
-            <span>Email</span>
-            <input type="email" name="contraparte_email" />
-          </label>
-          <label class="field">
-            <span>Teléfono</span>
-            <input type="tel" name="contraparte_telefono" />
-          </label>
-        </div>
-      </fieldset>
-
-      <fieldset class="card">
         <legend>
           <label class="field-checkbox field-checkbox-legend">
             <input type="checkbox" id="incluye_carta_porte" name="incluye_carta_porte" />
             <span>Incluir carta de porte (art. 10 bis Ley 15/2009)</span>
           </label>
         </legend>
-        <div id="carta-porte-campos" class="field-grid" hidden>
-          <label class="field">
-            <span>Expedidor</span>
-            <input type="text" name="expedidor_nombre" />
-          </label>
-          <label class="field">
-            <span>Dirección del expedidor</span>
-            <input type="text" name="expedidor_direccion" />
-          </label>
-          <label class="field">
-            <span>Destinatario *</span>
-            <input type="text" name="destinatario_nombre" />
-          </label>
-          <label class="field">
-            <span>Dirección del destinatario *</span>
-            <input type="text" name="destinatario_direccion" />
-          </label>
-          <label class="field">
-            <span>Lugar de recepción</span>
-            <input type="text" name="lugar_recepcion" />
-          </label>
-          <label class="field">
-            <span>Fecha de recepción</span>
-            <input type="date" name="fecha_recepcion" />
-          </label>
-          <label class="field">
-            <span>Hora de recepción</span>
-            <input type="time" name="hora_recepcion" />
-          </label>
-          <label class="field">
-            <span>Lugar de entrega previsto</span>
-            <input type="text" name="lugar_entrega_previsto" />
-          </label>
-          <label class="field">
-            <span>Fecha de entrega prevista</span>
-            <input type="date" name="fecha_entrega_prevista" />
-          </label>
-          <label class="field">
-            <span>Hora de entrega prevista</span>
-            <input type="time" name="hora_entrega_prevista" />
-          </label>
-          <label class="field">
-            <span>Precio del transporte (€)</span>
-            <input type="number" name="precio_transporte" min="0" step="0.01" />
-          </label>
-          <label class="field">
-            <span>Gastos relacionados (€)</span>
-            <input type="number" name="gastos_relacionados" min="0" step="0.01" />
-          </label>
+        <div id="carta-porte-campos" hidden>
+          <h3 class="subcard-title">Lugar de carga</h3>
+          <div class="field-grid">
+            <label class="field field-wide">
+              <span>Nombre (almacén / empresa)</span>
+              <input type="text" name="lugar_carga_nombre" />
+            </label>
+            <label class="field field-wide">
+              <span>Calle / avenida</span>
+              <input type="text" name="lugar_carga_calle" />
+            </label>
+            <label class="field">
+              <span>Código postal</span>
+              <input type="text" name="lugar_carga_codigo_postal" inputmode="numeric" maxlength="5" />
+            </label>
+            <label class="field">
+              <span>Población</span>
+              <input type="text" name="lugar_carga_poblacion" />
+            </label>
+            <label class="field">
+              <span>Provincia</span>
+              <input type="text" name="lugar_carga_provincia" />
+            </label>
+            <label class="field">
+              <span>Fecha de carga</span>
+              <input type="date" name="lugar_carga_fecha" />
+            </label>
+            <label class="field">
+              <span>Hora de carga</span>
+              <input type="time" name="lugar_carga_hora" />
+            </label>
+          </div>
+
+          <h3 class="subcard-title">Lugar de entrega</h3>
+          <div class="field-grid">
+            <label class="field field-wide">
+              <span>Nombre (almacén / empresa) *</span>
+              <input type="text" name="lugar_entrega_nombre" />
+            </label>
+            <label class="field field-wide">
+              <span>Calle / avenida</span>
+              <input type="text" name="lugar_entrega_calle" />
+            </label>
+            <label class="field">
+              <span>Código postal *</span>
+              <input type="text" name="lugar_entrega_codigo_postal" inputmode="numeric" maxlength="5" />
+            </label>
+            <label class="field">
+              <span>Población *</span>
+              <input type="text" name="lugar_entrega_poblacion" />
+            </label>
+            <label class="field">
+              <span>Provincia</span>
+              <input type="text" name="lugar_entrega_provincia" />
+            </label>
+            <label class="field">
+              <span>Fecha de entrega prevista</span>
+              <input type="date" name="lugar_entrega_fecha" />
+            </label>
+            <label class="field">
+              <span>Hora de entrega prevista</span>
+              <input type="time" name="lugar_entrega_hora" />
+            </label>
+          </div>
+
+          <div class="field-grid">
+            <label class="field">
+              <span>Precio del transporte (€)</span>
+              <input type="number" name="precio_transporte" min="0" step="0.01" />
+            </label>
+            <label class="field">
+              <span>Gastos relacionados (€)</span>
+              <input type="number" name="gastos_relacionados" min="0" step="0.01" />
+            </label>
+          </div>
         </div>
       </fieldset>
 
