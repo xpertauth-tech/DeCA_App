@@ -18,6 +18,7 @@ async function cargarConfiguracionVisual() {
   }
 
   const { data, error } = await supabaseClient
+    .schema("deca")
     .from("configuracion")
     .select("empresa_nombre, logo_url")
     .eq("id", 1)

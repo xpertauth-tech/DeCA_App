@@ -1,10 +1,12 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
-// Única puerta de escritura para expediciones y cartas de porte. Se llama
-// con la anon key en la cabecera Authorization (verify_jwt la valida), pero
-// dentro usa la service_role key para saltarse RLS y escribir de verdad —
-// esa clave nunca sale de este entorno de servidor.
+// Única puerta de escritura para expediciones y cartas de porte, sobre el
+// esquema "deca" del Supabase autoalojado de XpertAuth. Kong no exige JWT en
+// las funciones sueltas de este servidor (solo lo hace la función "main"),
+// así que comprobamos aquí mismo que llega el anon key correcto antes de
+// tocar la base de datos. La escritura real usa la service_role key, que
+// nunca sale de este entorno de servidor.
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -40,6 +42,13 @@ Deno.serve(async (req) => {
     return jsonResponse({ error: "Método no permitido" }, 405);
   }
 
+  const auth = req.headers.get("authorization") ?? "";
+  const token = auth.replace(/^Bearer\s+/i, "").trim();
+  const anonKeyEsperado = (Deno.env.get("SUPABASE_ANON_KEY") ?? "").trim();
+  if (token !== anonKeyEsperado) {
+    return jsonResponse({ error: "No autorizado" }, 401);
+  }
+
   let payload: Record<string, unknown>;
   try {
     payload = await req.json();
@@ -54,7 +63,8 @@ Deno.serve(async (req) => {
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    { db: { schema: "deca" } }
   );
 
   const incluyeCartaPorte = Boolean(payload.incluye_carta_porte);

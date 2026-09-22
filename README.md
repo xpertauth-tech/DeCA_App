@@ -43,18 +43,36 @@ assets/                Logos e imágenes de marca
 
 ## Modelo de datos (resumen)
 
-- `configuracion` — ajustes de esta instancia (nombre de empresa, logo,
+Todas las tablas viven en su propio esquema, **`deca`** (no en `public`), para
+no mezclarse con otras aplicaciones que puedan compartir el mismo servidor
+Supabase — igual que ya se hace con otros proyectos de XpertAuth.
+
+- `deca.configuracion` — ajustes de esta instancia (nombre de empresa, logo,
   plazo de conservación).
-- `directorio` — contactos frecuentes (cargador / transportista /
+- `deca.directorio` — contactos frecuentes (cargador / transportista /
   destinatario / expedidor) para el autocompletado ("efecto memoria").
-- `expediciones` — datos comunes del envío, art. 6, rellenados una sola vez.
-- `deca_documentos` — versiones del DeCA (una fila por versión; Método 1
+- `deca.expediciones` — datos comunes del envío, art. 6, rellenados una sola vez.
+- `deca.deca_documentos` — versiones del DeCA (una fila por versión; Método 1
   actualiza la vigente, Método 2 añade una nueva conservando la anterior).
-- `cartas_porte` — datos adicionales del art. 10 bis de la Ley 15/2009,
+- `deca.cartas_porte` — datos adicionales del art. 10 bis de la Ley 15/2009,
   un documento independiente y separado del DeCA.
 
 Detalle completo en
 [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql).
+
+### Si tu Supabase es autoalojado
+
+PostgREST solo expone los esquemas listados en `PGRST_DB_SCHEMAS` (variable
+de entorno del stack de Supabase). Añade `deca` a esa lista y recuerda que
+**`docker restart` no relee el `.env`** — hace falta recrear el contenedor:
+
+```bash
+docker compose up -d rest
+```
+
+Y como Kong no exige JWT en las funciones sueltas (solo lo hace la función
+`main`), `crear-expedicion` comprueba ella misma el `anon key` recibido en la
+cabecera `Authorization`.
 
 ## Seguridad
 
