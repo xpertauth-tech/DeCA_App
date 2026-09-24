@@ -171,6 +171,28 @@
           </label>
         </legend>
         <div id="carta-porte-campos" hidden>
+          <h3 class="subcard-title">Bultos</h3>
+          <div class="field-grid">
+            <label class="field">
+              <span>Número de bultos</span>
+              <input type="number" name="numero_bultos" min="0" step="1" />
+            </label>
+            <label class="field">
+              <span>Tipo de bultos</span>
+              <input type="text" name="tipo_bultos" list="tipos-bultos" placeholder="p. ej. palés, bidones" />
+              <datalist id="tipos-bultos">
+                <option value="Palés"></option>
+                <option value="Cajas"></option>
+                <option value="Sacos"></option>
+                <option value="Bidones"></option>
+                <option value="Big-bags"></option>
+                <option value="Botellas"></option>
+                <option value="Granel"></option>
+                <option value="Otro"></option>
+              </datalist>
+            </label>
+          </div>
+
           <h3 class="subcard-title">Lugar de carga</h3>
           <div class="field-grid">
             <label class="field field-wide">

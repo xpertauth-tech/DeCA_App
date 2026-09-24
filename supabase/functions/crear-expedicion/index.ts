@@ -137,6 +137,8 @@ Deno.serve(async (req) => {
       lugar_carga_provincia: payload.lugar_carga_provincia || null,
       lugar_carga_fecha: payload.lugar_carga_fecha || null,
       lugar_carga_hora: payload.lugar_carga_hora || null,
+      numero_bultos: payload.numero_bultos ? Number(payload.numero_bultos) : null,
+      tipo_bultos: payload.tipo_bultos || null,
       lugar_entrega_nombre: payload.lugar_entrega_nombre,
       lugar_entrega_calle: payload.lugar_entrega_calle || null,
       lugar_entrega_codigo_postal: payload.lugar_entrega_codigo_postal,

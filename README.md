@@ -62,11 +62,15 @@ Supabase — igual que ya se hace con otros proyectos de XpertAuth.
   fiscal de ninguna de las partes.
 - `deca.deca_documentos` — versiones del DeCA (una fila por versión; Método 1
   actualiza la vigente, Método 2 añade una nueva conservando la anterior).
-- `deca.cartas_porte` — datos adicionales del art. 10 bis de la Ley 15/2009,
+- `deca.cartas_porte` — contenido adicional que exige la carta de porte
+  (art. 10 Ley 15/2009) y que el DeCA (art. 6 Orden FOM/2861/2012) no pide,
   un documento independiente y separado del DeCA. `lugar_carga` y
   `lugar_entrega` son el punto físico real de carga/descarga (puede ser un
   almacén distinto del domicilio fiscal del contratante o del destinatario
   legal), por eso llevan su propio nombre y dirección, sin NIF.
+  `numero_bultos`/`tipo_bultos` recogen el embalaje de la mercancía —
+  contenido exigido por el art. 10 Ley 15/2009 (heredado del art. 6 CMR)
+  pero no por el DeCA, por eso viven aquí y no en `expediciones`.
 
 Detalle completo en
 [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql).
