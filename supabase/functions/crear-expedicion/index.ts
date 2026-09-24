@@ -114,6 +114,8 @@ Deno.serve(async (req) => {
       naturaleza_mercancia: payload.naturaleza_mercancia,
       peso_kg: payload.peso_kg ? Number(payload.peso_kg) : null,
       peso_indeterminado: Boolean(payload.peso_indeterminado),
+      numero_bultos: payload.numero_bultos ? Number(payload.numero_bultos) : null,
+      tipo_bultos: payload.tipo_bultos || null,
       magnitud_alternativa: payload.magnitud_alternativa || null,
       matricula_vehiculo: payload.matricula_vehiculo,
       autorizacion_especial: payload.autorizacion_especial || null,

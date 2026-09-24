@@ -59,7 +59,11 @@ Supabase — igual que ya se hace con otros proyectos de XpertAuth.
   "contraparte" separada). Las direcciones van en 4 campos (calle, código
   postal, población, provincia); el origen/destino del transporte solo lleva
   código postal y población, porque puede no coincidir con el domicilio
-  fiscal de ninguna de las partes.
+  fiscal de ninguna de las partes. `numero_bultos`/`tipo_bultos` recogen el
+  embalaje de la mercancía (contenido exigido por el art. 10 Ley 15/2009,
+  heredado del art. 6 CMR), por eso viven aquí junto a `naturaleza_mercancia`
+  y no en `cartas_porte`, que solo cubre lo específico del art. 10 bis
+  (identificación del porteador efectivo).
 - `deca.deca_documentos` — versiones del DeCA (una fila por versión; Método 1
   actualiza la vigente, Método 2 añade una nueva conservando la anterior).
 - `deca.cartas_porte` — datos adicionales del art. 10 bis de la Ley 15/2009,

@@ -149,8 +149,26 @@
             <span>Peso indeterminado</span>
           </label>
           <label class="field">
+            <span>Número de bultos</span>
+            <input type="number" name="numero_bultos" min="0" step="1" />
+          </label>
+          <label class="field">
+            <span>Tipo de bultos</span>
+            <input type="text" name="tipo_bultos" list="tipos-bultos" placeholder="p. ej. palés, bidones" />
+            <datalist id="tipos-bultos">
+              <option value="Palés"></option>
+              <option value="Cajas"></option>
+              <option value="Sacos"></option>
+              <option value="Bidones"></option>
+              <option value="Big-bags"></option>
+              <option value="Botellas"></option>
+              <option value="Granel"></option>
+              <option value="Otro"></option>
+            </datalist>
+          </label>
+          <label class="field">
             <span>Magnitud alternativa</span>
-            <input type="text" name="magnitud_alternativa" placeholder="p. ej. bultos, m³" />
+            <input type="text" name="magnitud_alternativa" placeholder="p. ej. m³, litros" />
           </label>
           <label class="field">
             <span>Autorización especial</span>
