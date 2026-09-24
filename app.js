@@ -30,10 +30,11 @@ async function cargarConfiguracionVisual() {
   }
 
   if (data.empresa_nombre) {
-    document.getElementById("empresa-nombre").textContent = data.empresa_nombre;
+    document.getElementById("empresa-nombre").textContent = `DeCA — ${data.empresa_nombre}`;
   }
   if (data.logo_url) {
     document.getElementById("empresa-logo").src = data.logo_url;
+    document.getElementById("empresa-logo").title = data.empresa_nombre || "Logo de la empresa";
   }
 }
 
